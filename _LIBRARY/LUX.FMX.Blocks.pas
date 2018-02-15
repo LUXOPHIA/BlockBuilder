@@ -2,27 +2,22 @@
 
 interface //#################################################################### ■
 
-uses System.Types, System.Classes, System.Math.Vectors,
-     FMX.Objects3D, FMX.Types3D, FMX.Controls3D, FMX.MaterialSources,
+uses System.Classes, System.Math.Vectors,
+     FMX.Types3D, FMX.Controls3D, FMX.MaterialSources,
      LUX, LUX.D3;
 
 type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【型】
 
      //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【レコード】
 
-     TGridPoin = record
-       IsInside :Boolean;
-       PoinX    :Integer;
-       PoinY    :Integer;
-       PoinZ    :Integer;
-     end;
+     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TVert
 
      TVert = record
        Pos :TPoint3D;
        Nor :TPoint3D;
      end;
 
-     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TPoly
+     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TQuad
 
      TQuad = record
        N  :TShortint3D;
