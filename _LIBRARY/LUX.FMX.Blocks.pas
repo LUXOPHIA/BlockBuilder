@@ -162,7 +162,7 @@ end;
 
 procedure TBlocks.MakeModel;
 const
-     Faces :array [ 1..6 ] of TQuad = (
+     Quads :array [ 1..6 ] of TQuad = (
           ( N:( X:-1; Y: 0; Z: 0 ); P1:( X:0; Y:0; Z:0 ); P2:( X:0; Y:1; Z:0 ); P3:( X:0; Y:1; Z:1 ); P4:( X:0; Y:0; Z:1 ) ),
           ( N:( X: 0; Y:-1; Z: 0 ); P1:( X:0; Y:0; Z:0 ); P2:( X:0; Y:0; Z:1 ); P3:( X:1; Y:0; Z:1 ); P4:( X:1; Y:0; Z:0 ) ),
           ( N:( X: 0; Y: 0; Z:-1 ); P1:( X:0; Y:0; Z:0 ); P2:( X:1; Y:0; Z:0 ); P3:( X:1; Y:1; Z:0 ); P4:( X:0; Y:1; Z:0 ) ),
@@ -219,7 +219,7 @@ begin
           begin
                for N := 1 to 6 do
                begin
-                    with Faces[ N ] do
+                    with Quads[ N ] do
                     begin
                          if not Voxels[ X+N.X, Y+N.Y, Z+N.Z ] then
                          begin
