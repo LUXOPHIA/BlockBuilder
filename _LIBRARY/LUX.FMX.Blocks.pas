@@ -33,34 +33,34 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
      TBlocks = class( TControl3D )
      private
-       procedure MakeVoxels;
+       procedure MakeBrics;
      protected
        _Geometry :TMeshData;
        _Material :TMaterialSource;
-       _Voxels   :TArray3<Boolean>;
-       _BricX    :Integer;
-       _BricY    :Integer;
-       _BricZ    :Integer;
+       _Brics    :TArray3<Boolean>;
+       _BricsX   :Integer;
+       _BricsY   :Integer;
+       _BricsZ   :Integer;
        ///// アクセス
-       function GetVoxels( const X_,Y_,Z_:Integer ) :Boolean;
-       procedure SetVoxels( const X_,Y_,Z_:Integer; const Voxel_:Boolean );
-       function GetBricX :Integer;
-       procedure SetBricX( const BricX_:Integer );
-       function GetBricY :Integer;
-       procedure SetBricY( const BricY_:Integer );
-       function GetBricZ :Integer;
-       procedure SetBricZ( const BricZ_:Integer );
+       function GetBrics( const X_,Y_,Z_:Integer ) :Boolean;
+       procedure SetBrics( const X_,Y_,Z_:Integer; const Voxel_:Boolean );
+       function GetBricsX :Integer;
+       procedure SetBricsX( const BricsX_:Integer );
+       function GetBricsY :Integer;
+       procedure SetBricsY( const BricsY_:Integer );
+       function GetBricsZ :Integer;
+       procedure SetBricsZ( const BricsZ_:Integer );
        ///// メソッド
        procedure Render; override;
      public
        constructor Create( AOwner_:TComponent ); override;
        destructor Destroy; override;
        ///// プロパティ
-       property Material                         :TMaterialSource read   _Material write   _Material;
-       property Voxels[ const X_,Y_,Z_:Integer ] :Boolean         read GetVoxels   write SetVoxels  ;
-       property BricX                            :Integer         read GetBricX    write SetBricX   ;
-       property BricY                            :Integer         read GetBricY    write SetBricY   ;
-       property BricZ                            :Integer         read GetBricZ    write SetBricZ   ;
+       property Material                        :TMaterialSource read   _Material write   _Material;
+       property Brics[ const X_,Y_,Z_:Integer ] :Boolean         read GetBrics    write SetBrics   ;
+       property BricsX                          :Integer         read GetBricsX   write SetBricsX  ;
+       property BricsY                          :Integer         read GetBricsY   write SetBricsY  ;
+       property BricsZ                          :Integer         read GetBricsZ   write SetBricsZ  ;
        ///// メソッド
        procedure EndUpdate; override;
        procedure MakeModel;
@@ -84,72 +84,72 @@ uses System.SysUtils, System.RTLConsts;
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& private
 
-procedure TBlocks.MakeVoxels;
+procedure TBlocks.MakeBrics;
 begin
-     SetLength( _Voxels, _BricZ, _BricY, _BricX );
+     SetLength( _Brics, _BricsZ, _BricsY, _BricsX );
 end;
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& protected
 
 /////////////////////////////////////////////////////////////////////// アクセス
 
-function TBlocks.GetVoxels( const X_,Y_,Z_:Integer ) :Boolean;
+function TBlocks.GetBrics( const X_,Y_,Z_:Integer ) :Boolean;
 begin
-     if ( 0 <= Z_ ) and ( Z_ < _BricZ ) and
-        ( 0 <= Y_ ) and ( Y_ < _BricY ) and
-        ( 0 <= X_ ) and ( X_ < _BricX ) then Result := _Voxels[ Z_, Y_, X_ ]
-                                        else Result := False;
+     if ( 0 <= Z_ ) and ( Z_ < _BricsZ ) and
+        ( 0 <= Y_ ) and ( Y_ < _BricsY ) and
+        ( 0 <= X_ ) and ( X_ < _BricsX ) then Result := _Brics[ Z_, Y_, X_ ]
+                                         else Result := False;
 end;
 
-procedure TBlocks.SetVoxels( const X_,Y_,Z_:Integer; const Voxel_:Boolean );
+procedure TBlocks.SetBrics( const X_,Y_,Z_:Integer; const Voxel_:Boolean );
 begin
-     _Voxels[ Z_, Y_, X_ ] := Voxel_;
+     _Brics[ Z_, Y_, X_ ] := Voxel_;
 
      if FUpdating = 0 then MakeModel;
 end;
 
 //------------------------------------------------------------------------------
 
-function TBlocks.GetBricX :Integer;
+function TBlocks.GetBricsX :Integer;
 begin
-     Result := _BricX;
+     Result := _BricsX;
 end;
 
-procedure TBlocks.SetBricX( const BricX_:Integer );
+procedure TBlocks.SetBricsX( const BricsX_:Integer );
 begin
-     _BricX := BricX_;  MakeVoxels;
+     _BricsX := BricsX_;  MakeBrics;
 end;
 
-function TBlocks.GetBricY :Integer;
+function TBlocks.GetBricsY :Integer;
 begin
-     Result := _BricY;
+     Result := _BricsY;
 end;
 
-procedure TBlocks.SetBricY( const BricY_:Integer );
+procedure TBlocks.SetBricsY( const BricsY_:Integer );
 begin
-     _BricY := BricY_;  MakeVoxels;
+     _BricsY := BricsY_;  MakeBrics;
 end;
 
-function TBlocks.GetBricZ :Integer;
+function TBlocks.GetBricsZ :Integer;
 begin
-     Result := _BricZ;
+     Result := _BricsZ;
 end;
 
-procedure TBlocks.SetBricZ( const BricZ_:Integer );
+procedure TBlocks.SetBricsZ( const BricsZ_:Integer );
 begin
-     _BricZ := BricZ_;  MakeVoxels;
+     _BricsZ := BricsZ_;  MakeBrics;
 end;
 
 /////////////////////////////////////////////////////////////////////// メソッド
 
 procedure TBlocks.Render;
 begin
-     Context.SetMatrix( TMatrix3D.CreateTranslation( TPoint3D.Create( -_BricX / 2,
-                                                                      -_BricY / 2,
-                                                                      -_BricZ / 2 ) )
-                      * TMatrix3D.CreateScaling( TPoint3D.Create( Width  / _BricX,
-                                                                  Height / _BricY,
-                                                                  Depth  / _BricZ ) )
+     Context.SetMatrix( TMatrix3D.CreateTranslation( TPoint3D.Create( -_BricsX / 2,
+                                                                      -_BricsY / 2,
+                                                                      -_BricsZ / 2 ) )
+                      * TMatrix3D.CreateScaling( TPoint3D.Create( Width  / _BricsX,
+                                                                  Height / _BricsY,
+                                                                  Depth  / _BricsZ ) )
                       * AbsoluteMatrix );
 
      Context.DrawTriangles( _Geometry.VertexBuffer,
@@ -211,17 +211,17 @@ begin
      //     +----+ |/
      //       +----+
 
-     for Z := 0 to _BricZ-1 do
-     for Y := 0 to _BricY-1 do
-     for X := 0 to _BricX-1 do
+     for Z := 0 to _BricsZ-1 do
+     for Y := 0 to _BricsY-1 do
+     for X := 0 to _BricsX-1 do
      begin
-          if Voxels[ X, Y ,Z ] then
+          if Brics[ X, Y ,Z ] then
           begin
                for N := 1 to 6 do
                begin
                     with Quads[ N ] do
                     begin
-                         if not Voxels[ X+N.X, Y+N.Y, Z+N.Z ] then
+                         if not Brics[ X+N.X, Y+N.Y, Z+N.Z ] then
                          begin
                               AddVert( P1, N );
                               AddVert( P2, N );
@@ -292,11 +292,11 @@ begin
      _Geometry := TMeshData.Create;
      _Material := nil;
 
-     _BricX := 10;
-     _BricY := 10;
-     _BricZ := 10;
+     _BricsX := 10;
+     _BricsY := 10;
+     _BricsZ := 10;
 
-     MakeVoxels;
+     MakeBrics;
 end;
 
 destructor TBlocks.Destroy;
