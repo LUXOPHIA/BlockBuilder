@@ -74,21 +74,21 @@ begin
      begin
           BeginUpdate;
 
-          for Z := 0 to BricZ-1 do
+          for Z := 0 to BricsZ-1 do
           begin
-               P.Z := 24 * ( ( Z + 0.5 ) / BricZ - 0.5 );
+               P.Z := 24 * ( ( Z + 0.5 ) / BricsZ - 0.5 );
 
-               for Y := 0 to BricY-1 do
+               for Y := 0 to BricsY-1 do
                begin
-                    P.Y := 24 * ( ( Y + 0.5 ) / BricY - 0.5 );
+                    P.Y := 24 * ( ( Y + 0.5 ) / BricsY - 0.5 );
 
-                    for X := 0 to BricX-1 do
+                    for X := 0 to BricsX-1 do
                     begin
-                         P.X := 24 * ( ( X + 0.5 ) / BricX - 0.5 );
+                         P.X := 24 * ( ( X + 0.5 ) / BricsX - 0.5 );
 
                          P2 := P * TMatrix3D.CreateRotationX( DegToRad( Angle_ ) );
 
-                         Voxels[ X, Y, Z ] := ( Pãodering( P2 ) < 0 );
+                         Brics[ X, Y, Z ] := ( Pãodering( P2 ) < 0 );
                     end;
                end;
           end;
@@ -111,9 +111,9 @@ begin
           Width    := 10;
           Height   := 10;
           Depth    := 10;
-          BricX    := 100;
-          BricY    := 100;
-          BricZ    := 100;
+          BricsX   := 100;
+          BricsY   := 100;
+          BricsZ   := 100;
      end;
 
      MakeVoxels( 0 );
