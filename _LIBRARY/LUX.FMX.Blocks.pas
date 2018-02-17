@@ -43,7 +43,7 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
        _BricsZ   :Integer;
        ///// アクセス
        function GetBrics( const X_,Y_,Z_:Integer ) :Boolean;
-       procedure SetBrics( const X_,Y_,Z_:Integer; const Voxel_:Boolean );
+       procedure SetBrics( const X_,Y_,Z_:Integer; const Bric_:Boolean );
        function GetBricsX :Integer;
        procedure SetBricsX( const BricsX_:Integer );
        function GetBricsY :Integer;
@@ -101,9 +101,9 @@ begin
                                          else Result := False;
 end;
 
-procedure TBlocks.SetBrics( const X_,Y_,Z_:Integer; const Voxel_:Boolean );
+procedure TBlocks.SetBrics( const X_,Y_,Z_:Integer; const Bric_:Boolean );
 begin
-     _Brics[ Z_, Y_, X_ ] := Voxel_;
+     _Brics[ Z_, Y_, X_ ] := Bric_;
 
      if FUpdating = 0 then MakeModel;
 end;
