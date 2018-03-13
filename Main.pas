@@ -19,22 +19,19 @@ type
     Grid3D1: TGrid3D;
     StrokeCube1: TStrokeCube;
     LightMaterialSource1: TLightMaterialSource;
-    Timer1: TTimer;
     procedure FormCreate(Sender: TObject);
     procedure Viewport3D1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
     procedure Viewport3D1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
     procedure Viewport3D1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
-    procedure Timer1Timer(Sender: TObject);
   private
     { private 宣言 }
     _MouseS :TShiftState;
     _MouseP :TPointF;
-    _FrameI :Integer;
   public
     { public 宣言 }
     _Blocks :TBlocks;
     ///// メソッド
-    procedure MakeVoxels( const Angle_:Single );
+    procedure MakeBlocks;
   end;
 
 var
@@ -46,7 +43,9 @@ implementation //###############################################################
 
 uses System.Math;
 
-//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& private
+
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& public
 
 function Pãodering( const P_:TPoint3D ) :Single;
 var
@@ -61,14 +60,12 @@ begin
      Result := Sqr( Sqrt( X2 + Y2 ) - 8 - A ) + Z2 - Sqr( 2 + 3 * A );
 end;
 
-//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& private
+//------------------------------------------------------------------------------
 
-//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& public
-
-procedure TForm1.MakeVoxels( const Angle_:Single );
+procedure TForm1.MakeBlocks;
 var
    X, Y, Z :Integer;
-   P, P2 :TPoint3D;
+   P :TPoint3D;
 begin
      with _Blocks do
      begin
@@ -86,9 +83,7 @@ begin
                     begin
                          P.X := 24 * ( ( X + 0.5 ) / BricsX - 0.5 );
 
-                         P2 := P * TMatrix3D.CreateRotationX( DegToRad( Angle_ ) );
-
-                         Brics[ X, Y, Z ] := ( Pãodering( P2 ) < 0 );
+                         Brics[ X, Y, Z ] := ( Pãodering( P ) < 0 );
                     end;
                end;
           end;
@@ -116,7 +111,7 @@ begin
           BricsZ   := 100;
      end;
 
-     MakeVoxels( 0 );
+     MakeBlocks;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -147,15 +142,6 @@ begin
      Viewport3D1MouseMove( Sender, Shift, X, Y );
 
      _MouseS := [];
-end;
-
-//------------------------------------------------------------------------------
-
-procedure TForm1.Timer1Timer(Sender: TObject);
-begin
-     MakeVoxels( _FrameI );
-
-     Inc( _FrameI );
 end;
 
 end. //######################################################################### ■
